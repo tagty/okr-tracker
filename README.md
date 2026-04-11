@@ -28,3 +28,12 @@ docker compose up
 - **OKR 管理**: Objective の CRUD、Objective に紐づく Key Result の管理（progress: 0〜100）
 - **ダッシュボード**: Objective 一覧・Key Results のネスト表示・進捗の可視化
 - **週間レビュー**: done / issues / nextFocus の記録
+
+## 画面構成
+
+| パス | 内容 |
+|-----|------|
+| `/` | ダッシュボード（Objective 一覧・進捗バー） |
+| `/objectives/new` | Objective 作成 |
+| `/objectives/:id` | Objective 詳細 + Key Result 管理 |
+| `/weekly-review` | 週間レビュー |

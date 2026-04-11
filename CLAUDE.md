@@ -7,7 +7,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 個人向け OKR 管理ツール。
 
 - **Backend**: Ruby 4.0.2 / Rails 8.1（API モード）+ graphql-ruby — `POST /graphql` のみ提供
-- **Frontend**: Next.js（App Router / TypeScript）— 未実装
+- **Frontend**: Next.js（App Router / TypeScript）+ Apollo Client
 - **DB**: PostgreSQL 18
 - **インフラ**: Docker Compose（開発環境）
 
@@ -74,6 +74,38 @@ docker compose run --rm backend bin/brakeman
 - `Objective` の `averageProgress` はサーバー側で `KeyResult#progress` の平均を算出して返す
 - `WeeklyReview` は `week_start` をキーとした upsert mutation を使う
 - CORS は `config/initializers/cors.rb` で設定（現在コメントアウト済み）。frontend と接続する際は `rack-cors` gem を追加して有効化する
+
+## 画面構成（Frontend）
+
+```
+/ (ダッシュボード)
+  └─ Objective 一覧
+       └─ 各 Objective カード
+            ├─ タイトル・期間
+            ├─ 平均進捗バー
+            └─ Key Result 一覧（進捗スライダー or 数値）
+
+/objectives/new       → Objective 作成
+/objectives/:id       → Objective 詳細 + Key Result 管理
+/weekly-review        → 週間レビュー（done / issues / nextFocus）
+```
+
+### コンポーネント構成
+
+```
+app/
+├─ page.tsx                  # ダッシュボード
+├─ objectives/
+│   ├─ new/page.tsx
+│   └─ [id]/page.tsx
+└─ weekly-review/page.tsx
+
+components/
+├─ ObjectiveCard.tsx          # 進捗バー込み
+├─ KeyResultItem.tsx          # 進捗入力付き
+├─ ObjectiveForm.tsx
+└─ WeeklyReviewForm.tsx
+```
 
 ## コードスタイル
 
