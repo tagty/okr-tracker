@@ -1,3 +1,4 @@
+import Link from "next/link";
 import ObjectiveCard from "@/components/ObjectiveCard";
 
 const MOCK_OBJECTIVES = [
@@ -29,9 +30,12 @@ export default function Home() {
       <header className="border-b border-zinc-200 bg-white px-6 py-4">
         <div className="mx-auto flex max-w-3xl items-center justify-between">
           <h1 className="text-lg font-bold text-zinc-900">OKR Tracker</h1>
-          <button className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700">
+          <Link
+            href="/objectives/new"
+            className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700"
+          >
             Objective を追加
-          </button>
+          </Link>
         </div>
       </header>
 
