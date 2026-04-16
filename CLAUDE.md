@@ -10,6 +10,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - **Frontend**: Next.js（App Router / TypeScript）+ Apollo Client
 - **DB**: PostgreSQL 18
 - **インフラ**: Docker Compose（開発環境）
+- **CI**: GitHub Actions（`.github/workflows/ci.yml`）
 
 ## アーキテクチャ
 
@@ -53,18 +54,20 @@ docker compose run --rm backend rails console
 docker compose run --rm backend rails test
 docker compose run --rm backend rails test test/models/objective_test.rb
 
-# Lint
+# Lint / セキュリティ
 docker compose run --rm backend bin/rubocop
+docker compose run --rm backend bin/rubocop -a  # 自動修正
 docker compose run --rm backend bin/brakeman
+docker compose run --rm backend bin/bundler-audit
 ```
 
-## データモデル（設計）
+## データモデル
 
-| モデル | 主なカラム |
-|--------|-----------|
-| `Objective` | `title`, `description`, `period` |
-| `KeyResult` | `objective_id`, `title`, `progress`（0〜100） |
-| `WeeklyReview` | `week_start`（ユニーク日付）, `done`, `issues`, `next_focus` |
+| モデル | 主なカラム | 状態 |
+|--------|-----------|------|
+| `Objective` | `title`（必須）, `period`（必須）, `description` | ✅ 実装済み |
+| `KeyResult` | `objective_id`, `title`, `progress`（0〜100） | 未実装 |
+| `WeeklyReview` | `week_start`（ユニーク日付）, `done`, `issues`, `next_focus` | 未実装 |
 
 `Objective` has many `KeyResult`。`WeeklyReview` は Objective と独立した全体レビュー。
 
@@ -85,27 +88,37 @@ docker compose run --rm backend bin/brakeman
             ├─ 平均進捗バー
             └─ Key Result 一覧（進捗スライダー or 数値）
 
-/objectives/new       → Objective 作成
 /objectives/:id       → Objective 詳細 + Key Result 管理
 /weekly-review        → 週間レビュー（done / issues / nextFocus）
 ```
+
+Objective 作成はダッシュボードの「Objective を追加」ボタンをクリックするとデフォルト値で即作成（別ページへの遷移なし）。
 
 ### コンポーネント構成
 
 ```
 app/
-├─ page.tsx                  # ダッシュボード
+├─ page.tsx                  # ダッシュボード ✅ 実装済み（モックデータ）
 ├─ objectives/
-│   ├─ new/page.tsx
 │   └─ [id]/page.tsx
 └─ weekly-review/page.tsx
 
 components/
-├─ ObjectiveCard.tsx          # 進捗バー込み
+├─ ObjectiveCard.tsx          # 進捗バー込み ✅ 実装済み
 ├─ KeyResultItem.tsx          # 進捗入力付き
-├─ ObjectiveForm.tsx
 └─ WeeklyReviewForm.tsx
 ```
+
+## CI
+
+`.github/workflows/ci.yml` に GitHub Actions を設定済み。PR・main push 時に自動実行。
+
+| ジョブ | 内容 |
+|--------|------|
+| Backend / Test | Minitest（PostgreSQL サービス付き） |
+| Backend / RuboCop | コードスタイルチェック |
+| Backend / Security | Brakeman + bundler-audit |
+| Frontend / Lint & Type check | ESLint + TypeScript 型チェック |
 
 ## コードスタイル
 

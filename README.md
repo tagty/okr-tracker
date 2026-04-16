@@ -11,6 +11,7 @@
 | Frontend | Next.js（App Router / TypeScript） |
 | DB | PostgreSQL 18 |
 | インフラ | Docker Compose |
+| CI | GitHub Actions |
 
 ## 起動方法
 
@@ -31,9 +32,30 @@ docker compose up
 
 ## 画面構成
 
-| パス | 内容 |
-|-----|------|
-| `/` | ダッシュボード（Objective 一覧・進捗バー） |
-| `/objectives/new` | Objective 作成 |
-| `/objectives/:id` | Objective 詳細 + Key Result 管理 |
-| `/weekly-review` | 週間レビュー |
+| パス | 内容 | 状態 |
+|-----|------|------|
+| `/` | ダッシュボード（Objective 一覧・進捗バー・ワンクリック追加） | ✅ 実装済み |
+| `/objectives/:id` | Objective 詳細 + Key Result 管理 | 未実装 |
+| `/weekly-review` | 週間レビュー | 未実装 |
+
+## 実装状況
+
+### Backend
+
+| 項目 | 状態 |
+|------|------|
+| GraphQL エンドポイント | ✅ |
+| Objective モデル（バリデーション・DB 制約） | ✅ |
+| KeyResult モデル | 未実装 |
+| WeeklyReview モデル | 未実装 |
+| GraphQL Query / Mutation | 未実装 |
+
+### Frontend
+
+| 項目 | 状態 |
+|------|------|
+| ダッシュボード UI | ✅（モックデータ） |
+| ObjectiveCard コンポーネント | ✅ |
+| Apollo Client 接続 | 未実装 |
+| Objective 詳細ページ | 未実装 |
+| 週間レビューページ | 未実装 |
