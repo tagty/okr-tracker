@@ -23,9 +23,13 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Install system dependencies
+        run: sudo apt-get update && sudo apt-get install -y libpq-dev
+
       - uses: ruby/setup-ruby@v1
         with:
           working-directory: backend
+          ruby-version: backend/.ruby-version
           bundler-cache: true
 
       - name: Run tests
@@ -45,6 +49,7 @@ jobs:
       - uses: ruby/setup-ruby@v1
         with:
           working-directory: backend
+          ruby-version: backend/.ruby-version
           bundler-cache: true
 
       - name: RuboCop
@@ -61,6 +66,7 @@ jobs:
       - uses: ruby/setup-ruby@v1
         with:
           working-directory: backend
+          ruby-version: backend/.ruby-version
           bundler-cache: true
 
       - name: Brakeman
