@@ -29,8 +29,7 @@ jobs:
       - uses: ruby/setup-ruby@v1
         with:
           working-directory: backend
-          ruby-version: backend/.ruby-version
-          bundler-cache: true
+bundler-cache: true
 
       - name: Run tests
         working-directory: backend
@@ -49,8 +48,7 @@ jobs:
       - uses: ruby/setup-ruby@v1
         with:
           working-directory: backend
-          ruby-version: backend/.ruby-version
-          bundler-cache: true
+bundler-cache: true
 
       - name: RuboCop
         working-directory: backend
@@ -66,8 +64,7 @@ jobs:
       - uses: ruby/setup-ruby@v1
         with:
           working-directory: backend
-          ruby-version: backend/.ruby-version
-          bundler-cache: true
+bundler-cache: true
 
       - name: Brakeman
         working-directory: backend
