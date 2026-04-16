@@ -17,8 +17,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_16_071800) do
   create_table "objectives", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.text "description"
-    t.string "period"
-    t.string "title"
+    t.string "period", null: false
+    t.string "title", null: false
     t.datetime "updated_at", null: false
   end
 end
